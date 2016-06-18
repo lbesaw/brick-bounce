@@ -2,7 +2,6 @@ package com.tutorial.main;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.*;
@@ -12,13 +11,18 @@ import javax.imageio.*;
  */
 public class BrickObject extends GameObject {
     Handler handler;
-    private int brickLife = 2;
+    private int brickLife = 1;
     BufferedImage bufferedImage;
+    HUD hud;
 
-
-    public BrickObject(int x, int y, ID id, Handler handler) {
+    public BrickObject(int x, int y, ID id, Handler handler, HUD hud) {
         super(x, y, id);
         this.handler = handler;
+        this.hud = hud;
+        if (this.getId() == ID.BlueBrick) brickLife = 2;
+        else if (this.getId() == ID.RedBrick) brickLife = 1;
+        else if (this.getId() == ID.GreenBrick) brickLife = 3;
+        else brickLife = 1;
     }
 
     @Override
@@ -28,7 +32,10 @@ public class BrickObject extends GameObject {
 
     @Override
     public void tick() {
-        if (brickLife <= 0) handler.removeObject(this);
+        if (brickLife <= 0) {
+            handler.removeObject(this);
+            hud.setScore(hud.getScore() + 50);
+        }
         collision();
     }
 
@@ -41,29 +48,57 @@ public class BrickObject extends GameObject {
                     //tempObject.setVelX(tempObject.getVelX()*-1);
                     tempObject.setVelY(tempObject.getVelY() * -1);
                     brickLife -= 1;
+                    switch (brickLife) {
+                        case 1:
+                            this.setId(ID.RedBrick);
+                            break;
+                        case 2:
+                            this.setId(ID.BlueBrick);
+                            break;
+                        case 3:
+                            this.setId(ID.GreenBrick);
+                            break;
+                        default:
+                            this.setId(ID.RedBrick);
+                            break;
+                    }
+                }
                 }
             }
         }
-    }
+
 
     @Override
     public void render(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+
         if (this.id == ID.BlueBrick) {
             try {
-                bufferedImage = ImageIO.read(new File("C:\\Users\\narhwal\\Desktop\\GameTutorial\\src\\com\\tutorial\\main\\Assets\\ball.png"));
+                bufferedImage = ImageIO.read(new File("src\\com\\tutorial\\main\\Assets\\blueball.png"));
             } catch (IOException e) {
 
             }
 
             g2.drawImage(bufferedImage, null, this.getX(), this.getY());
+
+
         } else if (this.id == ID.RedBrick) {
-            g.setColor(Color.RED);
-            g.fillRect(x, y, 16, 8);
+            try {
+                bufferedImage = ImageIO.read(new File("src\\com\\tutorial\\main\\Assets\\redball.png"));
+            } catch (IOException e) {
+
+            }
+
+            g2.drawImage(bufferedImage, null, this.getX(), this.getY());
         } else if (this.id == ID.GreenBrick) {
 
-            g.setColor(Color.GREEN);
-            g.fillRect(x, y, 16, 8);
+            try {
+                bufferedImage = ImageIO.read(new File("src\\com\\tutorial\\main\\Assets\\greenball.png"));
+            } catch (IOException e) {
+
+            }
+
+            g2.drawImage(bufferedImage, null, this.getX(), this.getY());
         } else {
             g.setColor(Color.WHITE);
             g.fillRect(x, y, 16, 8);

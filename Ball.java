@@ -32,6 +32,6 @@ public class Ball extends GameObject {
 
     @Override
     public void render(Graphics g) {
-
+        g.fillOval(x, y, 16, 16);
     }
 }

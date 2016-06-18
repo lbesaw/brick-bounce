@@ -1,12 +1,13 @@
 package com.tutorial.main;
 
 import java.awt.*;
+import java.util.Random;
 
 
 public class Player2 extends GameObject {
 
     Handler handler;
-
+    Random r = new Random();
     public Player2(int x, int y, ID id, Handler handler) {
         super(x, y, id);
         this.handler = handler;
@@ -22,7 +23,16 @@ public class Player2 extends GameObject {
 
             if (tempObject.getId() == ID.Ball) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    if (tempObject.getVelX() < 0) tempObject.setVelX(tempObject.getVelX() * -1);
+                    int modifier;
+                    int temp = r.nextInt(100);
+                    if (temp <= 33) {
+                        modifier = -1;
+                    } else if (temp > 33 && temp <= 66) {
+                        modifier = 1;
+                    } else if (temp > 66) {
+                        modifier = 0;
+                    } else modifier = 0;
+                    if (tempObject.getVelX() < 0) tempObject.setVelX((tempObject.getVelX() + modifier) * -1);
                     //tempObject.setVelX(tempObject.getVelX()*-1);
                     tempObject.setVelY(tempObject.getVelY() * -1);
                 }
@@ -41,13 +51,12 @@ public class Player2 extends GameObject {
         x += velX;
 
         y += velY;
-        x = Game.clamp(x, 0, Game.WIDTH - 38);
+        x = Game.clamp(x, 48, Game.WIDTH - 48);
         y = Game.clamp(y, 0, Game.HEIGHT - 60);
         collision();
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(x, y, 48, 16);
+
     }
 }
