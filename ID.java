@@ -8,5 +8,8 @@ public enum ID {
     RedBrick(),
     GreenBrick(),
     BlueBrick(),
-    Ball()
+    Ball(),
+    NumFade(),
+    LevelFade(),
+    TextFade()
 }

@@ -20,8 +20,27 @@ public class KeyInput extends KeyAdapter {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+        if (key == KeyEvent.VK_END)
+            Game.paused = true;
+        if (key == KeyEvent.VK_N) {
+            for (int i = 0; i < handler.object.size(); i++) {
+                GameObject tempObject = handler.object.get(i);
+                if (tempObject.getId() == ID.Ball) {
+                    tempObject.setVelX(5);
+                    tempObject.setVelY(5);
+                }
+            }
+        }
+        if (key == KeyEvent.VK_DELETE)
+            Game.paused = false;
+
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
+//            if(tempObject.getId() == ID.GreenBrick || tempObject.getId() == ID.BlueBrick || tempObject.getId() == ID.RedBrick) {
+//                if( key == KeyEvent.VK_SPACE) {
+//                    handler.removeObject(tempObject);
+//                }
+//            }
             if (tempObject.getId() == ID.Player) {
                 //key events for player 1
                 if (key == KeyEvent.VK_W) {
@@ -40,6 +59,7 @@ public class KeyInput extends KeyAdapter {
                     tempObject.setVelX(5);
                     keyDown[3] = true;
                 }
+
 
             }
 
