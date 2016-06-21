@@ -20,8 +20,9 @@ public class KeyInput extends KeyAdapter {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_END)
+        if (key == KeyEvent.VK_PAUSE && !Game.paused)
             Game.paused = true;
+        else Game.paused = false;
         if (key == KeyEvent.VK_N) {
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);

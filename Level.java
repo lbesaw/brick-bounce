@@ -1,6 +1,7 @@
 package com.tutorial.main;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created by narhwal on 6/19/2016.
@@ -12,7 +13,7 @@ public class Level {
     private int levelNum = 1;
     private static BrickObject[][] tempObject = new BrickObject[24][5];
     private static Level level;
-
+    private Random r = new Random();
     public int getLevel() {
         return levelNum;
     }
@@ -47,7 +48,7 @@ public class Level {
             if (!stillBricks) {
                 stillBricks = true;
                 levelNum++;
-                handler.addObject(new NumFade(Game.WIDTH / 2 - 96, Game.HEIGHT / 2, ID.LevelFade, Color.white, "Level" + levelNum, 0.1f, handler, level));
+                handler.addObject(new NumFade(Game.WIDTH / 2 - 96, Game.HEIGHT / 2, ID.LevelFade, Color.white, "Level " + levelNum, 0.1f, handler, level));
                 loadLevel(levelNum);
                 hud.setLevel(levelNum);
 
@@ -61,6 +62,13 @@ public class Level {
         return tempObject[n][i];
     }
 
+    public ID randomBall() {
+        int temp = r.nextInt(100);
+        if (temp <= 33) return ID.RedBrick;
+        if (temp > 33 && temp <= 66) return ID.GreenBrick;
+        if (temp > 66) return ID.BlueBrick;
+        return null;
+    }
     public void loadLevel(int levelNum) {
 
         for (int i = 0; i < handler.object.size(); i++) {

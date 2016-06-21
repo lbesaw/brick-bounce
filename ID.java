@@ -11,5 +11,6 @@ public enum ID {
     Ball(),
     NumFade(),
     LevelFade(),
-    TextFade()
+    TextFade(),
+    TempBall()
 }

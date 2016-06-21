@@ -41,6 +41,9 @@ public class BrickObject extends GameObject {
     public void tick() {
         if (brickLife <= 0) {
             handler.removeObject(level.getBrick(this.n, this.i));
+            //adding a new ball code.  Working now, will implement dropping "buffs" tomorrow
+            if ((this.n == 21 && this.i == 3) || this.n == 20)
+                handler.addObject(new Ball(100, 100, ID.TempBall, handler));
 //            for (int i = 0; i < handler.object.size(); i++) {
 //                GameObject tempObject = handler.object.get(i);
 //                if(tempObject.getId() != ID.Player && (tempObject.getId() == ID.BlueBrick || tempObject.getId() == ID.GreenBrick || tempObject.getId() == ID.RedBrick)) {
@@ -59,7 +62,7 @@ public class BrickObject extends GameObject {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
 
-            if (tempObject.getId() == ID.Ball) {
+            if (tempObject.getId() == ID.Ball || tempObject.getId() == ID.TempBall) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     //tempObject.setVelX(tempObject.getVelX()*-1);
                     tempObject.setVelY(tempObject.getVelY() * -1);
